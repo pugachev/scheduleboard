@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Room">	
+<typeAlias alias="room" type="model.Room" />
+	<select id="getRooms" resultClass="room" parameterClass="string">
+		select roomid,roomno,buildingid as buildingId from room where buildingid = #value#
+	</select>
+
+</sqlMap>

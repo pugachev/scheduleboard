@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE daoConfig PUBLIC "-//iBATIS.com//DTD DAO Configuration 2.0//EN"    "http://www.ibatis.com/dtd/dao-2.dtd">
+
+<!-- 後で消す -->
+
+<daoConfig>
+	<context>
+		<transactionManager type="SQLMAP">
+			<property name="SqlMapConfigResource" value="dao/sql-map-config.xml" />
+		</transactionManager>		
+		<dao interface="dao.RoomDAO" implementation="dao.sqlmap.RoomSQLMapDao" />
+		<dao interface="dao.BuildingDAO" implementation="dao.sqlmap.BuildingSQLMapDao" />
+		<dao interface="dao.RangeDAO" implementation="dao.sqlmap.RangeSQLMapDao" />
+		<dao interface="dao.ReservationDAO" implementation="dao.sqlmap.ReservationSQLMapDao" />
+	</context>
+</daoConfig>

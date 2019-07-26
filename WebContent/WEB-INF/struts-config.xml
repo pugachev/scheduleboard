@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="ShowReserveListForm" type="action.form.ReserveListForm" />
+        <form-bean name="EntryReserveForm" type="action.form.ReserveDetailForm"  />
+        <form-bean name="BuildingForm" type="org.apache.struts.action.DynaActionForm" />
+    </form-beans>
+    
+    <global-exceptions>
+        <!-- 1)例外処理の設定 -->
+        <exception key="already" type="logic.exception.RoomAlreadyReserveException" path="/view/entry.jsp"/>
+        <exception key="sql.exception" type="com.ibatis.dao.client.DaoException" path="/view/stop.jsp"/>
+    </global-exceptions>
+    
+    <global-forwards>
+        <!--2)予約の更新後に予約一覧画面に遷移させる  -->
+        <forward name="rList" path="/ReservedList.do" />
+    </global-forwards>
+    
+    <action-mappings>
+        <!-- 3) 一覧表示のために、ビルと予約日付を入力する画面を表示する　-->
+        <action name="BuildingForm" path="/Building" type="action.BuildingShowAction" scope="request" >
+            <forward name="list" path="/view/building.jsp" />
+        </action>
+        
+        <!-- 4)ビルと日付を元に予約一覧を表示する -->    
+        <action name="ShowReserveListForm" path="/ReservedList" type="action.ReserveListAction" scope="request" >
+            <forward name="list" path="/view/list.jsp" />
+        </action>
+        
+        <!-- 5)予約画面の表示する　-->       
+        <action name="EntryReserveForm" path="/Entry" type="action.EntryReserveShowAction" scope="request" >
+           <forward name="entry" path="/view/entry.jsp" />        
+        </action>
+                
+        <!-- 6)予約をおこなう -->
+        <action name="EntryReserveForm" path="/EntryReserve" type="action.EntryReserveAction" parameter="action"  scope="request" >
+           <forward name="error" path="/view/entry.jsp" />          
+        </action>
+                   
+    </action-mappings>
+
+    <message-resources parameter="ApplicationResource" />
+</struts-config>

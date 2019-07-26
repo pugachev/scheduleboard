@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Reservation">	
+	<typeAlias alias="reserve" type="model.Reservation" />
+
+	<!-- 1)resultMapの定義 -->
+	<resultMap id="reserve-result" class="reserve">
+  		<result property="reserveId" column="reserve_id"/>
+  		<result property="person" column="reserve_person"/>
+  		<result property="content" column="content"/>
+  		<result property="date" column="rDay"/>
+  		<result property="start" column="start"/>
+  		<result property="end" column="end"/>  
+  		<result property="room.roomId" column="room_id" />
+  		<result property="room.roomNo" column="room_no" />
+  		<result property="room.buildingId" column="room_buildingId" />
+	</resultMap>
+
+	<statement id="getReservation" parameterClass="int" resultMap="reserve-result">
+  		select reserve_id,reserve_person,reserve.roomid as room_id,room.roomno as room_no,rDay,start,end,content,room.buildingid as room_buildingId from reserve,room where reserve.reserve_id = #value# and reserve.roomid = room.roomid
+	</statement>
+	
+	<statement id="CheckP1" parameterClass="reserve" resultClass="int" >
+		select COUNT(*) from reserve where roomid = #room.roomId# and rDay = #date:DATE# and start &gt;= #start# and start &lt; #end# and reserve_id != #reserveId#
+	</statement>
+		
+	<statement id="CheckP2" parameterClass="reserve" resultClass="int" >
+		select COUNT(*) from reserve where roomid = #room.roomId# and rDay = #date:DATE# and end &gt; #start# and end &lt;= #end# and reserve_id != #reserveId#
+	</statement>
+	
+	<statement id="CheckP3" parameterClass="reserve" resultClass="int" >
+		select COUNT(*) from reserve where roomid = #room.roomId# and rDay = #date:DATE# and start &lt;= #start# and end &gt;= #end# and reserve_id != #reserveId#
+	</statement>
+
+	<statement id="getReservationsForDate" parameterClass="java.util.Map" resultMap="reserve-result">
+		select reserve_id,reserve_person,reserve.roomid as room_id,room.roomno as room_no,rDay,start,end,content,room.buildingid as room_buildingId from reserve,room where reserve.roomid = #roomid# and rDay = #date:DATE# and reserve.roomid = room.roomid
+	</statement>	
+
+	<statement id="insertReservation" parameterClass="reserve" resultClass="int">
+		insert into reserve(reserve_person,roomid,rDay,start,end,content) values(#person#,#room.roomId#,#date:DATE#,#start#,#end#,#content#)
+	</statement>
+	
+	<statement id="updateReservation" parameterClass="reserve" resultClass="int">
+		update reserve set reserve_person=#person# ,rDay = #date:DATE# ,start = #start# ,end = #end# ,content = #content# where reserve_id = #reserveId# 
+	</statement>
+
+	<statement id="deleteReservation" parameterClass="int" resultClass="int">
+		delete from reserve where reserve_id = #value# 
+	</statement>	
+</sqlMap>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+	<sqlMapConfig>
+		<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		          maxSessions="64" maxTransactions="8" maxRequests="128" />
+
+		<!-- 1)JDBCの設定 -->
+		<transactionManager type="JDBC">
+			<dataSource type="SIMPLE">
+				<property name="JDBC.Driver" value="com.mysql.jdbc.Driver" />
+				<property name="JDBC.ConnectionURL" value="jdbc:mysql://localhost/struts?useUnicode=true&amp;characterEncoding=UTF-8" />
+				<property name="JDBC.Username" value="root"  />
+				<property name="JDBC.Password" value="1028" />
+			</dataSource>
+		</transactionManager>
+
+		<!-- 2)iBatis SQLMapの設定 -->
+		<sqlMap resource="dao/sqlmap/Room.xml" />
+		<sqlMap resource="dao/sqlmap/Building.xml" />
+		<sqlMap resource="dao/sqlmap/Range.xml" />
+		<sqlMap resource="dao/sqlmap/Reservation.xml" />
+	</sqlMapConfig>

@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS building (id INT(4) PRIMARY KEY,name VARCHAR(255),INDEX (id)) TYPE=INNODB;
+CREATE TABLE IF NOT EXISTS timerange (rangeno INTEGER PRIMARY KEY,timename varchar(5),colspan INTEGER,INDEX(rangeno)) TYPE=INNODB;
+CREATE TABLE IF NOT EXISTS room ( roomid VARCHAR(16) PRIMARY KEY,roomNo VARCHAR(255),buildingid INT(4),INDEX (roomid),INDEX (buildingid),FOREIGN KEY(buildingid) REFERENCES building(id) )TYPE=INNODB;
+CREATE TABLE IF NOT EXISTS reserve ( reserve_id MEDIUMINT PRIMARY KEY AUTO_INCREMENT ,reserve_person VARCHAR(16),roomid VARCHAR(16),rDay DATE,start INTEGER,end INTEGER,content VARCHAR(32),INDEX (roomid),INDEX (start),INDEX (end),FOREIGN KEY(roomid) REFERENCES room(roomid),FOREIGN KEY(start) REFERENCES timerange(rangeno),FOREIGN KEY(end) REFERENCES timerange(rangeno) ) TYPE=INNODB;
